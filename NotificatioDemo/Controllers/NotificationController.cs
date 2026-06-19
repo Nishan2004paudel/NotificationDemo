@@ -26,17 +26,21 @@ namespace NotificatioDemo.Controllers
         [HttpPut("read/{id}")]
         public IActionResult MarkAsRead(int id)
         {
-            var result = _notificationService.MarkAsRead(id);
+            _notificationService.MarkAsRead(id);
 
-            if (!result)
-                return NotFound(new { Message = "Notification not Found" });
 
             return Ok(new
             {
                 Message = "Notification marked as read"
             });
+        }
 
+        [HttpGet("unread/{userId}")]
+        public IActionResult GetUnreadNotifications(int userId)
+        {
+            var notifications = _notificationService.GetUnreadNotifications(userId);
 
+            return Ok(notifications);
         }
     }
 }

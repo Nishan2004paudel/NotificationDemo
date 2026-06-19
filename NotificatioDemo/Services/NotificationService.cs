@@ -77,14 +77,29 @@ namespace NotificatioDemo.Services
                 .FirstOrDefault(n => n.Id == notificationId);
 
             if (notification == null)
-                return NotFound();
+                return;
 
             notification.IsRead = true;
 
             _context.SaveChanges();
         }
 
+        public List<NotificationDto> GetUnreadNotifications(int userId)
+        {
+            var result = _context.Notifications
+                .Include(n => n.TriggeredByUser)
+                .Include(n => n.Choice)
+                .Where(n => n.UserId == userId && n.IsRead == false)
+                .Select(n => new NotificationDto
+                {
+                    Message = $"{n.TriggeredByUser.Username} selected {n.Choice.Name}",
+                    IsRead = n.IsRead,
+                    CreatedAt = n.CreatedAt
+                })
+                .ToList();
 
+            return result;
+        }
 
 
     }
