@@ -1,4 +1,4 @@
-using Azure.Identity;
+﻿using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 using NotificatioDemo.Data;
 using System.ComponentModel.DataAnnotations;

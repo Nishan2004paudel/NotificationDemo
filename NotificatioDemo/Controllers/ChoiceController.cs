@@ -16,13 +16,16 @@ namespace NotificatioDemo.Controllers
         }
 
         [HttpPost("select")]
-        public IActionResult SelectChoice(SelectChoiceDto dto)
+        public IActionResult SelectChoice([FromBody] SelectChoiceDto dto)
         {
             _notificationService.UserSelectedChoice(dto.UserId, dto.ChoiceId);
 
             return Ok(new
             {
-                Message = "Selection processed"
+                Message = "Selection processed",
+                UserId = dto.UserId,
+                ChoiceId = dto.ChoiceId,
+                Time = DateTime.UtcNow
             }
             );
 

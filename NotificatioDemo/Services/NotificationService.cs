@@ -1,5 +1,8 @@
-﻿using NotificatioDemo.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NotificatioDemo.Data;
 using NotificatioDemo.Models;
+using NotificatioDemo.DTOs;
 
 namespace NotificatioDemo.Services
 {
@@ -45,8 +48,31 @@ namespace NotificatioDemo.Services
                 _context.Notifications.Add(notification);
             }
 
+
+
             _context.SaveChanges();
 
         }
+
+        public List<NotificationDto> GetNotifications(int userId)
+        {
+            var result = _context.Notifications
+                .Include(n => n.TriggeredByUser)
+                .Include(n => n.Choice)
+                .Where(n => n.UserId == userId)
+                .Select(n => new NotificationDto
+                {
+                    Message = $"{n.TriggeredByUser.Username} selected {n.Choice.Name}",
+                    IsRead = n.IsRead,
+                    CreatedAt = n.CreatedAt
+                })
+                .ToList();
+
+            return result;
+        }
+
+
+
+
     }
 }
