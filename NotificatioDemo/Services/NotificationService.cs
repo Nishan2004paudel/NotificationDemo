@@ -71,6 +71,19 @@ namespace NotificatioDemo.Services
             return result;
         }
 
+        public void MarkAsRead(int notificationId)
+        {
+            var notification = _context.Notifications
+                .FirstOrDefault(n => n.Id == notificationId);
+
+            if (notification == null)
+                return NotFound();
+
+            notification.IsRead = true;
+
+            _context.SaveChanges();
+        }
+
 
 
 
