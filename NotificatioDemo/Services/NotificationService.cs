@@ -62,6 +62,7 @@ namespace NotificatioDemo.Services
                 .Where(n => n.UserId == userId)
                 .Select(n => new NotificationDto
                 {
+                    Id = n.Id,
                     Message = $"{n.TriggeredByUser.Username} selected {n.Choice.Name}",
                     IsRead = n.IsRead,
                     CreatedAt = n.CreatedAt
@@ -92,6 +93,7 @@ namespace NotificatioDemo.Services
                 .Where(n => n.UserId == userId && n.IsRead == false)
                 .Select(n => new NotificationDto
                 {
+                    Id = n.Id,
                     Message = $"{n.TriggeredByUser.Username} selected {n.Choice.Name}",
                     IsRead = n.IsRead,
                     CreatedAt = n.CreatedAt
